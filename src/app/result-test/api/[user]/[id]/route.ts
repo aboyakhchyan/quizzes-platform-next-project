@@ -49,13 +49,18 @@ export const GET = async(req: NextRequest, {params}: IProps) => {
     const {id} = await params
     const token = (await cookies()).get('auth')?.value
     if(!token) {
-        return Response.json({message: 'Token is not exist'})
+        return Response.json({status: 'error',message: 'Token is not exist'})
     }
  
     const user = jwt.verify(token, process.env.SECRET_KEY as string) as IUser
+
+    if(!user) {
+        return Response.json({status: 'error', message: 'User not a found'})
+    }
     const test = await getTestById(Number(id)) as ITest
 
     const questions = await getQuestionsByTestId(test.id) as IQuestion[]
+
     const score = await getScoreByTestAndUserId(user.id, test.id) as IScore
 
     const newQuestion = await Promise.all(

@@ -36,8 +36,8 @@ export const createTestApi = async (form: FormData): Promise<IResopnse> => {
     return response.data
 }
 
-export const getAllTestsApi = async (): Promise<IResopnse> => {
-    const response = await Axios.get(`/profile/api/tests`)
+export const getAllTestsApi = async (searchText: string): Promise<IResopnse> => {
+    const response = await Axios.get(`/profile/api/tests?title=${searchText}`)
 
     return response.data
 }
