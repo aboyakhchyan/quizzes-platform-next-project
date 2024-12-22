@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import jwt from 'jsonwebtoken'
 import { IUser } from './app/_helpers/types'
+import { jwtDecode } from 'jwt-decode'
 
 const protectedRoutes = [
   /^\/scores-test\/[^/]+$/,
@@ -18,12 +18,12 @@ export default async function middleware(req: NextRequest) {
   const isProtectedRoute = protectedRoutes.some((route) => route.test(path))
   const isPublicRoute = publicRoutes.includes(path)
 
-  const token = (await cookies()).get('suth')?.value as string
+  const token = (await cookies()).get('auth')?.value as string
 
   let user = null
 
   if (token) {
-    user = await jwt.verify(token, process.env.SECRET_KEY as string) as IUser
+    user = await jwtDecode(token) as IUser
   }
 
   if (!user && isProtectedRoute) {
