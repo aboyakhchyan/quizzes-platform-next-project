@@ -6,12 +6,14 @@ import { ResultQuestionItem } from "@/app/_helpers/components/result-question-it
 import { Context } from "@/app/_helpers/context"
 import { IContext } from "@/app/_helpers/types"
 import { useParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useContext, useEffect, useState } from "react"
 
 export default function ResultTest () {
     
     const {state, dispatch} = useContext(Context) as IContext
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const router = useRouter()
     const params = useParams()
     const {user, id} = params 
 
@@ -55,6 +57,17 @@ export default function ResultTest () {
                             />
                         ))}
                     </div>
+
+                    <div className="flex justify-center mt-6">
+                        <button 
+                            className="px-6 py-2  bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:from-blue-600 hover:via-purple-700 hover:to-blue-600 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75"
+                            onClick={() => router.push('/profile')}
+                        >
+                            Profile
+                        </button>
+                    </div>
+
+
                 </main>
         </>
     )
